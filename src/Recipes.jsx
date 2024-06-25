@@ -7,12 +7,12 @@ export function Recipes() {
     recipesData.forEach(recipe => {
         const ingredients = []
         recipe.ingredients.forEach(ingredient => {
-            ingredients.push(<li key={ingredient}>{ingredient}</li>)
+            ingredients.push(<li key={ingredient.id}>{ingredient.content}</li>)
         })
 
         const steps = []
         recipe.steps.forEach(step => {
-            steps.push(<li key={step}>{step}</li>)
+            steps.push(<li key={step.id}>{step.content}</li>)
         })
 
         recipes.push(

@@ -6,15 +6,21 @@ const recipes = [
   {
     id: 1,
     name: "Panqueques",
-    ingredients: ["Una taza de harina", "Una taza de leche", "Un pocillo de aceite", "Dos huevos", "Una taza de azúcar"],
-    steps: ["Mezclar todo"]
+    ingredients: [{ id: '1i', content: "Una taza de harina" },
+      { id: '2i', content: "Una taza de leche" },
+      { id: '3i', content: "Un pocillo de aceite" },
+      { id: '4i', content: "Dos huevos" },
+      { id: '5i', content: "Una taza de azúcar" }],
+    steps: [
+      { id: 's1', content: "Mezclar todo"}
+    ]
   }
 ]
 
 const blankRecipe = Object.freeze({
   name: "",
-  ingredients: [""],
-  steps: [""]
+  ingredients: [{id: '1i', content: "cafe"}],
+  steps: [{ id: '1s', content: "awa" }]
 })
 
 export const RecipesContext = createContext(recipes)
@@ -29,6 +35,7 @@ function App() {
   const handleClick = () => {
     const newRecipeWithId = { ...newRecipe }
     newRecipeWithId.id = crypto.randomUUID()
+    console.log("new ", newRecipeWithId)
     recipes.push(newRecipeWithId)
     setNewRecipe({ ...blankRecipe })
     setToggleDialog(false)

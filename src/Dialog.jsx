@@ -1,24 +1,40 @@
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { NewRecipeContext } from "./App"
+import { Input } from "./Input"
 
 export function AddRecipeForm() {
     const [newRecipe, setNewRecipe] = useContext(NewRecipeContext)
 
-    const handleChangeInIngredient = (ingredient, index) => {
-        const oldIngredients = [...newRecipe.ingredients]
-        oldIngredients[index] = ingredient
-        setNewRecipe({ ...newRecipe, ingredients: [...oldIngredients] })
-    }
+    const [ingredientsInputs, setIngredientsInputs] = useState([])
+    const [stepInputs, setStepsInputs] = useState([])
+    
+    useEffect(() => {
+        console.log('render ingredient inputs')
+        const newIngredientsInputs = []
+        
+        newRecipe.ingredients.forEach((ingredient) => {
+            newIngredientsInputs.push(
+                <div key={ingredient.id}>
+                    <Input contentId={ingredient.id} type={'ingredient'} />
+                </div>
+            )
+        })
+        setIngredientsInputs(newIngredientsInputs)
+    }, [newRecipe.ingredients.length])
+    
+    useEffect(() => {
+        console.log('render steps inputs')
+        const newStepsInputs = []
 
-    const getIngredientValue = (index) => newRecipe.ingredients[index]
-
-    const handleChangeInStep = (step, index) => {
-        const oldSteps = [...newRecipe.steps]
-        oldSteps[index] = step
-        setNewRecipe({ ...newRecipe, steps: [...oldSteps] })
-    }
-
-    const getStepValue = (index) => newRecipe.steps[index]
+        newRecipe.steps.forEach((step) => {
+            newStepsInputs.push(
+                <div key={step.id}>
+                    <Input contentId={step.id} type={'step'} />
+                </div>
+            )
+        })
+        setStepsInputs(newStepsInputs)
+    }, [newRecipe.steps.length])
 
     return (
         <>
@@ -31,22 +47,22 @@ export function AddRecipeForm() {
                 </div>
 
                 <p className="bold">Ingredientes:</p>
-                <div className="field label border small" style={{ marginBlockEnd: ".5rem" }}>
-                    <input type="text" value={getIngredientValue(0)} onChange={e => handleChangeInIngredient(e.target.value, 0)} />
-                    <label>Ingrediente</label>
-                </div>
-                <button className="circle small" onClick={() => { }}>
+                { ingredientsInputs }
+                <button className="circle small" onClick={() => { 
+                    const newIngredients = [...newRecipe.ingredients, {id: crypto.randomUUID(), content: ""}]
+                    setNewRecipe({ ...newRecipe, ingredients: [...newIngredients]})
+                }}>
                     <i>add</i>
                 </button>
 
                 <div className="space"></div>
 
                 <p className="bold">Pasos:</p>
-                <div className="field label border small" style={{ marginBlockEnd: ".5rem" }}>
-                    <input type="text" value={getStepValue(0)} onChange={e => handleChangeInStep(e.target.value, 0)} />
-                    <label>Paso</label>
-                </div>
-                <button className="circle small">
+                { stepInputs }
+                <button className="circle small" onClick={() => { 
+                    const newSteps = [...newRecipe.steps, {id: crypto.randomUUID(), content: ""}]
+                    setNewRecipe({ ...newRecipe, steps: [...newSteps]})
+                }}>
                     <i>add</i>
                 </button>
             </div>
