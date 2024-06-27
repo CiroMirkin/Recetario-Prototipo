@@ -7,13 +7,10 @@ export function Input({ contentId, type }) {
     const getInputValue = () => {
         if(type == 'ingredient') {
             const ingredient = newRecipe.ingredients.find(({ id }) => id == contentId)
-            console.log(ingredient.content)
             return ingredient.content
         }
         else {
             const step = newRecipe.steps.find(({ id }) => id == contentId)
-            console.log(step)
-            console.log(step.content)
             return step.content
         }
     }
